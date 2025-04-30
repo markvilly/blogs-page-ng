@@ -1,32 +1,14 @@
-import { Component } from "@angular/core";
-import { BlogComponent } from "./blog.component";
+import { Injectable, signal } from "@angular/core";
+import { Blog } from "./blog.interface";
 
-@Component({
-  selector: "app-blog-page",
-  imports: [BlogComponent],
-  template: `
-    <div class="grid grid-cols-2 gap-4">
-      @for (blog of blogData; track blog.title) {
-        <div class="w-full">
-          <app-blog
-            [title]="blog.title"
-            [image]="blog.image"
-            [content]="blog.content"
-          />
-        </div>
-      }
-    </div>
-  `,
+@Injectable({
+  providedIn: "root",
 })
-export class BlogPageComponent {
-  //   selectedBlog = this.blogData[randomIndex];
-  //   onSelectedBlog() {
-  //     const randomIndex = Math.floor(Math.random() * this.blogData.length);
-  //     this.selectedBlog = this.blogData[randomIndex];
-  //   }
-  blogData = [
+export class BlogService {
+  private readonly blogData = signal<Blog[]>([
     {
       title: "Dalili za Mimba ndani ya Mwezi mmoja",
+      slug: "dalili-za-mimba-ndani-ya-mwezi-mmoja",
       content:
         "Mimba ni hali ya kuweza kubeba mtoto tumboni kwa kipindi cha miezi tisa. Hali hii hutokea pale ambapo yai",
       image: "https://example.com/image1.jpg",
@@ -35,6 +17,7 @@ export class BlogPageComponent {
     },
     {
       title: "Faida za Mazoezi kwa Afya ya Mwili",
+      slug: "faida-za-mazoezi-kwa-afya-ya-mwili",
       content:
         "Mazoezi ni muhimu kwa kuboresha afya ya mwili na akili. Husaidia kupunguza uzito na kuimarisha misuli.",
       image: "https://example.com/image2.jpg",
@@ -43,6 +26,7 @@ export class BlogPageComponent {
     },
     {
       title: "Jinsi ya Kudhibiti Shinikizo la Damu",
+      slug: "jinsi-ya-kudhibiti-shinikizo-la-damu",
       content:
         "Shinikizo la damu linaweza kudhibitiwa kwa kula lishe bora, kufanya mazoezi, na kupunguza matumizi ya chumvi.",
       image: "https://example.com/image5.jpg",
@@ -51,6 +35,7 @@ export class BlogPageComponent {
     },
     {
       title: "Mbinu za Kuimarisha Kinga ya Mwili",
+      slug: "mbinu-za-kuimarisha-kinga-ya-mwili",
       content:
         "Kinga ya mwili inaweza kuimarishwa kwa kula vyakula vyenye vitamini C, kufanya mazoezi, na kupata usingizi wa kutosha.",
       image: "https://example.com/image6.jpg",
@@ -59,11 +44,24 @@ export class BlogPageComponent {
     },
     {
       title: "Dalili za Kisukari na Jinsi ya Kuzidhibiti",
+      slug: "dalili-za-kisukari-na-jinsi-ya-kuzidhibiti",
       content:
         "Kisukari kinaweza kudhibitiwa kwa kufuata lishe bora, kupunguza uzito, na kutumia dawa kama ilivyoelekezwa na daktari.",
       image: "https://example.com/image7.jpg",
       viewCount: 110,
       releaseDate: "2023-08-30",
     },
-  ];
+  ]);
+
+  public readonly blogs = this.blogData.asReadonly();
+
+  public updateBlogViewCount(slug: string): void {
+    this.blogData.update((blogs) => {
+      const blogIndex = blogs.findIndex((blog) => blog.slug === slug);
+      if (blogIndex !== -1) {
+        blogs[blogIndex].viewCount += 1;
+      }
+      return blogs;
+    });
+  }
 }
