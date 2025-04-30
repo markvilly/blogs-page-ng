@@ -1,11 +1,28 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BlogComponent } from './components/blog/blog.component';
+import { UsersComponent } from './components/blog/users.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, BlogComponent],
-  templateUrl: './app.component.html',
+  imports: [ BlogComponent],
+  template: `
+    <main class="sm:mx-10">
+  <div class="flex flex-wrap ">
+    @for (blog of blogData; track blog.title ){
+      <div class="mb-4 w-[350px] basis-2/4">
+        <app-blog title={{blog.title}} image={{blog.image}} content={{blog.content}}/>
+
+         <!-- <app-users userName={{user.userName}} imgSrc={{user.imgSrc}}/> -->
+
+      </div>
+    }
+    <div class="divider" role="separator" aria-label="Divider"></div>
+    
+  </div>
+</main>
+
+  `,
   
 
 })
@@ -47,4 +64,32 @@ export class AppComponent {
       releaseDate: '2023-08-30'
     }
   ]
+
+  userData = [
+    {
+      userName: 'John Doe',
+      imgSrc: 'https://example.com/user1.jpg',
+      userId: 'user001'
+    },
+    {
+      userName: 'Jane Smith',
+      imgSrc: 'https://example.com/user2.jpg',
+      userId: 'user002'
+    },
+    {
+      userName: 'Alice Johnson',
+      imgSrc: 'https://example.com/user3.jpg',
+      userId: 'user003'
+    },
+    {
+      userName: 'Bob Brown',
+      imgSrc: 'https://example.com/user4.jpg',
+      userId: 'user004'
+    },
+    {
+      userName: 'Charlie Davis',
+      imgSrc: 'https://example.com/user5.jpg',
+      userId: 'user005'
+    }
+  ];
 }
