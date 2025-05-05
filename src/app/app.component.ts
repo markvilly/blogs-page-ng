@@ -1,11 +1,26 @@
 import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
+import { BlogSearchComponent } from "./blogs/blog-search.component";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, BlogSearchComponent],
   template: `
-    <main class="px-10 bg-blue-100 min-h-screen pt-16">
+    <main class="bg-blue-50 h-full">
+      <header class=" flex items-center justify-between bg-blue-200  py-6 px-8">
+        <div class=" text-gray-700 font-regular text-2xl">Medikea</div>
+        <div>Hamburger</div>
+      </header>
+      <section class=" px-8 py-8">
+        <h2 class=" text-center text-2xl font-semibold py-4">
+          Medikea Health Hub
+        </h2>
+        <p class=" text-center text-lg text-gray-600">
+          Valuable information and expert insights on a wide range of health
+          topics, from prevention to treatment and beyond.
+        </p>
+      </section>
+      <app-blog-search />
       <router-outlet />
     </main>
   `,
