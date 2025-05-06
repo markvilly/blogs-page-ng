@@ -13,10 +13,10 @@ import { BlogsComponent } from "./blogs/blogs.component";
         <div>Hamburger</div>
       </header>
       <section class=" px-8 py-8">
-        <h2 class=" text-center text-2xl font-semibold py-4">
+        <h2 class=" text-center text-3xl font-semibold py-4">
           Medikea Health Hub
         </h2>
-        <p class=" text-center text-lg text-gray-600">
+        <p class=" text-center text-xl text-gray-600">
           Valuable information and expert insights on a wide range of health
           topics, from prevention to treatment and beyond.
         </p>
