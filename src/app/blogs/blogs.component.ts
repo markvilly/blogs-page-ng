@@ -19,7 +19,7 @@ import { FormsModule } from "@angular/forms";
       </div>
       <!-- Filters  -->
       <div
-        class="flex overflow-scroll gap-4 items-center p-2 bg-white py-2 no-scrollbar"
+        class="flex lg:justify-center overflow-scroll gap-4 items-center p-2 bg-white py-2 no-scrollbar"
       >
         @for (topic of topics; track topic) {
           <div
@@ -29,9 +29,9 @@ import { FormsModule } from "@angular/forms";
           </div>
         }
       </div>
-      <div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         @for (blog of filteredBlogsList().slice(0, 9); track blog.id) {
-          <app-blog-card [title]="blog.title" />
+          <app-blog-card [blog]="blog" />
         }
       </div>
     </section>
@@ -51,7 +51,10 @@ export class BlogsComponent implements OnInit {
   #searchBlog = toSignal(this.searchBlog$, { initialValue: "" });
 
   filteredBlogsList = computed(() => {
-    const collection = this.blogStore.collection();
+    const collection = [...this.blogStore.collection()].sort(
+      (a, b) =>
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
+    );
     const searchValue = this.#searchBlog();
 
     return collection.filter((blog) => {
