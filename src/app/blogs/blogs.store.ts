@@ -11,6 +11,7 @@ type BlogState = {
 };
 
 export const BlogStore = signalStore(
+  { providedIn: "root" },
   withState<BlogState>({
     collection: [],
   }),

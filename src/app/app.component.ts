@@ -1,11 +1,10 @@
 import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { BlogSearchComponent } from "./blogs/blog-search.component";
 import { BlogsComponent } from "./blogs/blogs.component";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet, BlogSearchComponent, BlogsComponent],
+  imports: [RouterOutlet, BlogsComponent],
   template: `
     <main class="bg-blue-50 h-full">
       <header class=" flex items-center justify-between bg-blue-200  py-6 px-8">
@@ -21,7 +20,7 @@ import { BlogsComponent } from "./blogs/blogs.component";
           topics, from prevention to treatment and beyond.
         </p>
       </section>
-      <app-blog-search />
+
       <app-blogs />
       <router-outlet />
     </main>
