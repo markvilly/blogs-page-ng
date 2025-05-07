@@ -44,7 +44,6 @@ import { FormsModule } from "@angular/forms";
 })
 export class BlogsComponent implements OnInit {
   protected readonly blogStore = inject(BlogStore);
-  topics = ["All Topics", "Health", "Wellness", "Nutrition", "Fitness"];
 
   searchBlog = signal("");
   selectedCategory = signal<string>("All Topics");
