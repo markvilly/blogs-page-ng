@@ -20,14 +20,18 @@ import { FormsModule } from "@angular/forms";
       </div>
       <!-- Filters  -->
       <div
-        class="flex lg:justify-center overflow-scroll gap-4 items-center p-2 bg-white py-2 no-scrollbar"
+        class="flex justify-start  overflow-scroll gap-4 items-center bg-white py-2 no-scrollbar"
       >
-        @for (topic of topics; track topic) {
-          <div
-            class="px-4 text-lg whitespace-nowrap rounded-full py-3 font-semibold text-white bg-blue-600"
+        @for (category of uniqueCategories(); track category) {
+          <a
+            (click)="selectedCategory.set(category)"
+            [class.bg-blue-700]="selectedCategory() === category"
+            [class.text-white]="selectedCategory() === category"
+            [class.bg-white]="selectedCategory() !== category"
+            class="px-4 text-lg whitespace-nowrap rounded-full py-3 font-semibold text-gray-600 cursor-pointer transition duration-150 hover:ring-blue-700 ring-[0.3px] hover:ring-[1px] focus:bg-blue-700 focus:text-white"
           >
-            {{ topic }}
-          </div>
+            {{ category }}
+          </a>
         }
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
@@ -43,6 +47,8 @@ export class BlogsComponent implements OnInit {
   topics = ["All Topics", "Health", "Wellness", "Nutrition", "Fitness"];
 
   searchBlog = signal("");
+  selectedCategory = signal<string>("All Topics");
+
   searchBlog$ = toObservable(this.searchBlog).pipe(
     startWith(""),
     debounceTime(300),
@@ -50,17 +56,28 @@ export class BlogsComponent implements OnInit {
 
   #searchBlog = toSignal(this.searchBlog$, { initialValue: "" });
 
+  uniqueCategories = computed(() => {
+    const categoryCollection = [
+      ...this.blogStore.collection().map((blog) => blog.category),
+    ];
+    return ["All Topics", ...new Set(categoryCollection)];
+  });
+
   filteredBlogsList = computed(() => {
     const collection = [...this.blogStore.collection()].sort(
       (a, b) =>
         new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
     );
     const searchValue = this.#searchBlog();
+    const category = this.selectedCategory();
 
     return collection.filter((blog) => {
-      return blog.slug
+      const matchesSearch = blog.slug
         .toLocaleLowerCase()
         .includes(searchValue?.toLocaleLowerCase() ?? "");
+      const matchesCategory =
+        category === "All Topics" || blog.category === category;
+      return matchesSearch && matchesCategory;
     });
   });
 

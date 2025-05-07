@@ -1,4 +1,4 @@
-import { Component, inject, Input } from "@angular/core";
+import { Component, inject, input, Input } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { BlogInterface } from "./blogs.interface";
 import { RouterModule } from "@angular/router";
@@ -15,8 +15,8 @@ import { BlogStore } from "./blogs.store";
       <!-- Image -->
       <div class="relative h-48 overflow-hidden">
         <img
-          [src]="blog.cover_image"
-          [alt]="blog.title"
+          [src]="blog().cover_image"
+          [alt]="blog().title"
           class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
         />
       </div>
@@ -24,10 +24,10 @@ import { BlogStore } from "./blogs.store";
       <!-- Content -->
       <div class="p-4">
         <h3 class="text-lg font-medium text-gray-700 pb-2 line-clamp-1">
-          {{ blog.title }}
+          {{ blog().title }}
         </h3>
         <p class="text-gray-600 mb-4 line-clamp-3">
-          {{ blog.brief }}
+          {{ blog().brief }}
         </p>
 
         <!-- Date -->
@@ -36,11 +36,11 @@ import { BlogStore } from "./blogs.store";
         >
           <div class="text-sm text-gray-500">View count:</div>
           <div class="text-sm text-gray-500">
-            {{ blog.created_at | date: "mediumDate" }}
+            {{ blog().created_at | date: "mediumDate" }}
           </div>
         </div>
         <a
-          [routerLink]="['details', blog.title]"
+          [routerLink]="['details', blog().id]"
           class="text-md font-semibold text-blue-500"
           >Read More</a
         >
@@ -49,7 +49,6 @@ import { BlogStore } from "./blogs.store";
   `,
 })
 export class BlogCardComponent {
-  protected readonly blogStore = inject(BlogStore)
-  @Input({ required: true }) blog!: BlogInterface;
-
+  protected readonly blogStore = inject(BlogStore);
+  blog = input.required<BlogInterface>();
 }

@@ -4,11 +4,16 @@ import { BlogsComponent } from "./blogs/blogs.component";
 
 export const routes: Routes = [
   {
-    path: "",
+    path: "blogs",
     component: BlogsComponent,
   },
   {
-    path: "details/:id",
+    path: "blogs/details/:id",
     component: BlogDetails,
+  },
+  {
+    path: "",
+    redirectTo: "blogs",
+    pathMatch: "full",
   },
 ];
