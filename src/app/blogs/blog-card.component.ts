@@ -1,11 +1,13 @@
-import { Component, Input } from "@angular/core";
+import { Component, inject, Input } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { BlogInterface } from "./blogs.interface";
+import { RouterModule } from "@angular/router";
+import { BlogStore } from "./blogs.store";
 
 @Component({
   selector: "app-blog-card",
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, RouterModule],
   template: `
     <div
       class="bg-white rounded-xl h-[430px] overflow-hidden shadow-lg pb-4 hover:shadow-xl transition-shadow duration-300 border border-gray-200"
@@ -37,11 +39,17 @@ import { BlogInterface } from "./blogs.interface";
             {{ blog.created_at | date: "mediumDate" }}
           </div>
         </div>
-        <a class="text-md font-semibold text-blue-500">Read More</a>
+        <a
+          [routerLink]="['details', blog.title]"
+          class="text-md font-semibold text-blue-500"
+          >Read More</a
+        >
       </div>
     </div>
   `,
 })
 export class BlogCardComponent {
+  protected readonly blogStore = inject(BlogStore)
   @Input({ required: true }) blog!: BlogInterface;
+
 }

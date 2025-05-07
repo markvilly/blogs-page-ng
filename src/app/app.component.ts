@@ -1,16 +1,19 @@
 import { Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { RouterModule } from "@angular/router";
 import { BlogsComponent } from "./blogs/blogs.component";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet, BlogsComponent],
+  imports: [RouterModule],
   template: `
     <main class="bg-blue-50 h-full">
-      <header class=" flex items-center justify-between bg-blue-200  py-6 px-8">
+      <a
+        [routerLink]="['']"
+        class=" flex items-center justify-between bg-blue-200  py-6 px-8"
+      >
         <div class=" text-gray-700 font-regular text-2xl">Medikea</div>
         <div>Hamburger</div>
-      </header>
+      </a>
       <section class=" px-8 py-8">
         <h2 class=" text-center text-3xl font-semibold py-4">
           Medikea Health Hub
@@ -21,7 +24,6 @@ import { BlogsComponent } from "./blogs/blogs.component";
         </p>
       </section>
 
-      <app-blogs />
       <router-outlet />
     </main>
   `,

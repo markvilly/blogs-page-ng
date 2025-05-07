@@ -7,6 +7,7 @@ import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-blogs",
+  imports: [BlogCardComponent, FormsModule],
   template: `
     <section class="px-8 bg-purple-50 py-10">
       <div class="flex justify-center items-center py-8">
@@ -36,7 +37,6 @@ import { FormsModule } from "@angular/forms";
       </div>
     </section>
   `,
-  imports: [BlogCardComponent, FormsModule],
 })
 export class BlogsComponent implements OnInit {
   protected readonly blogStore = inject(BlogStore);
